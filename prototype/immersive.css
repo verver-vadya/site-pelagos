@@ -1,0 +1,217 @@
+/* Prototype 02: observation instruments, water lenses and a continuous chapter scale. */
+:root {
+  --lens-fill: #0b2c42;
+  --lens-water: #23556b;
+  --lens-line: rgba(206, 237, 245, .58);
+  --lens-highlight: #d0edef;
+  --orbital-size: 148px;
+  --orbital-inner: 120px;
+}
+
+.nav-index {
+  display: inline-block;
+  margin-right: 8px;
+  font-size: 8px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.visit-lens {
+  padding: 6px 7px 6px 20px;
+  border-radius: 48px 48px 48px 12px;
+  border-color: var(--lens-line);
+  background: var(--shade);
+  gap: 20px;
+}
+.visit-lens-arrow {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+}
+.visit-lens-arrow svg {
+  width: 17px;
+  height: 17px;
+  transform: rotate(-40deg);
+  transition: transform var(--short) var(--ease);
+}
+
+.hero-action-row {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  margin-top: 24px;
+  width: max-content;
+  max-width: 100%;
+}
+.hero-action-row .hero-description { margin-top: 0; }
+.dive-control {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--orbital-size);
+  height: var(--orbital-size);
+  flex: 0 0 var(--orbital-size);
+  border-radius: 50%;
+  isolation: isolate;
+  transition: transform var(--short) var(--ease);
+}
+.dive-control:active { transform: scale(.97); }
+.dive-orbit {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--lens-line);
+  stroke-width: .6;
+  transition: transform var(--in) var(--ease), opacity var(--short) var(--ease);
+}
+.dive-orbit .orbit-arc { stroke: var(--lens-highlight); stroke-width: 1.5; }
+.dive-lens {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--orbital-inner);
+  height: var(--orbital-inner);
+  overflow: hidden;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--lens-fill);
+}
+.dive-water {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform: translateY(75%);
+  transition: transform 650ms var(--ease);
+}
+.dive-water svg { width: 100%; height: 100%; fill: var(--lens-water); stroke: none; }
+.dive-label { position: relative; display: grid; justify-items: center; gap: 12px; }
+.dive-label small { font-size: 7px; letter-spacing: .14em; color: var(--muted); }
+.dive-label>span { font-size: 12px; }
+.dive-label>svg { width: 19px; height: 19px; transition: transform var(--in) var(--ease); }
+.dive-control:focus-visible .dive-water { transform: translateY(24%); }
+.dive-control:focus-visible .dive-orbit { transform: rotate(18deg); }
+
+.creature-pin { left: 69%; top: 47%; max-width: 29%; gap: 0; padding: 12px; }
+.observation-target {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  display: grid;
+  place-items: center;
+  color: var(--lens-highlight);
+  transition: transform var(--in) var(--ease);
+}
+.observation-target>svg { width: 44px; height: 44px; stroke-width: 1; }
+.observation-target::after {
+  content: '';
+  position: absolute;
+  left: 60px;
+  width: 32px;
+  height: 1px;
+  background: var(--line);
+}
+.creature-pin .pin-label { padding-left: 40px; gap: 7px; }
+.creature-pin .pin-label>span { font-size: 12px; }
+.creature-pin .pin-label .observation-link { font-size: 9px; color: var(--muted); }
+.observation-link>span { display: inline-block; transition: transform var(--short) var(--ease); }
+.creature-pin:focus-visible .observation-target { transform: scale(1.08); }
+
+.chapter-scale { display: flex; align-items: center; gap: 16px; }
+.chapter-scale a { position: relative; display: grid; grid-template-columns: auto 8px; align-items: center; gap: 6px 10px; min-height: 44px; padding: 4px; }
+.chapter-scale a>span { font-size: 10px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.chapter-scale a>i { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); }
+.chapter-scale a>small { grid-column: 1/-1; font-size: 9px; color: var(--muted); }
+.chapter-scale .current>i { width: 7px; height: 7px; background: var(--white); }
+.chapter-scale .current>span,.chapter-scale .current>small { color: var(--white); }
+.chapter-scale-line { width: 48px; height: 1px; background: var(--line); }
+
+.depth-tabs { position: relative; border-bottom: 0; gap: 0; justify-content: space-between; padding-top: 8px; }
+.depth-tabs:before { content: ''; position: absolute; top: 27px; left: 20px; right: 20px; height: 1px; background: var(--line); }
+.depth-tabs button { position: relative; border: 0; display: grid; justify-items: center; gap: 12px; padding: 0 4px 4px; min-width: 64px; color: var(--muted); }
+.depth-tabs button:before { content: ''; position: relative; width: 40px; height: 40px; background: var(--deep); border: 1px solid var(--lens-line); border-radius: 50%; }
+.depth-tabs button:after { content: ''; position: absolute; top: 14px; left: calc(50% - 6px); width: 12px; height: 12px; border-radius: 50%; border: 1px solid var(--muted); }
+.depth-tabs button[data-depth="1"]:after { background: linear-gradient(90deg,var(--white) 50%,transparent 50%); }
+.depth-tabs button[data-depth="2"]:after { background: var(--white); }
+.depth-tabs button[aria-pressed=true]:before { border-color: var(--white); }
+.depth-tabs button[aria-pressed=true]:after { outline: 1px solid var(--line); outline-offset: 5px; }
+.depth-tabs button[aria-pressed=true] { color: var(--white); }
+
+.depth-window { border-radius: 48% 48% 2px 2px / 24% 24% 2px 2px; }
+.depth-window .depth-open { border: 1px solid var(--lens-line); border-radius: 50%; background: var(--shade); width: 44px; height: 44px; bottom: 16px; }
+.depth-window .depth-open svg { transform: rotate(-40deg); }
+.round-arrow { border-radius: 50% 50% 50% 12%; }
+
+@media (hover:hover) {
+  .visit-lens:hover .visit-lens-arrow svg { transform: rotate(0); }
+  .dive-control:hover .dive-water { transform: translateY(24%); }
+  .dive-control:hover .dive-orbit { transform: rotate(18deg); }
+  .dive-control:hover .dive-label>svg { transform: translateY(4px); }
+  .creature-pin:hover .observation-target { transform: scale(1.08); }
+  .creature-pin:hover .observation-link>span { transform: translate(2px,-2px); }
+  .chapter-scale a:hover>small { color: var(--white); }
+}
+
+@media (max-width:1100px) {
+  .navigation { gap: 24px; }
+  .nav-index { margin-right: 4px; }
+  .hero-action-row { gap: 28px; }
+  .creature-pin { left: 68%; max-width: 31%; }
+  .creature-pin .pin-label { padding-left: 24px; }
+  .observation-target::after { width: 16px; }
+  .creature-pin .pin-label>span { font-size: 10px; }
+  .chapter-scale-line { width: 24px; }
+}
+@media (max-height:760px) and (min-width:901px) {
+  :root { --orbital-size: 108px; --orbital-inner: 88px; }
+  .hero-action-row { margin-top: 20px; }
+  .dive-label { gap: 7px; }
+  .dive-label small { font-size: 5px; }
+  .dive-label>span { font-size: 10px; }
+  .dive-label>svg { width: 16px; height: 16px; }
+}
+@media (max-width:900px) {
+  :root { --orbital-size: 132px; --orbital-inner: 106px; }
+  .hero-copy { top: 41%; }
+  .hero-action-row { margin-top: 24px; }
+  .creature-pin { top: 27%; left: auto; right: var(--pad); max-width: 65%; }
+  .chapter-scale { display: none; }
+}
+@media (max-width:600px) {
+  :root { --orbital-size: 116px; --orbital-inner: 94px; }
+  .hero-copy { top: auto; bottom: 150px; }
+  .hero-action-row { gap: 16px; margin-top: 20px; width: 100%; justify-content: space-between; }
+  .hero-action-row .hero-description { font-size: 13px; line-height: 1.75; max-width: 168px; }
+  .hero-description br { display: none; }
+  .dive-label { gap: 9px; }
+  .dive-label small { font-size: 5px; }
+  .dive-label>span { font-size: 10px; }
+  .dive-label>svg { width: 16px; height: 16px; }
+  .creature-pin { top: 31%; right: 24px; max-width: calc(100% - 48px); }
+  .creature-pin .pin-label { padding-left: 24px; }
+  .observation-target { width: 40px; height: 40px; flex-basis: 40px; }
+  .observation-target>svg { width: 36px; height: 36px; }
+  .observation-target::after { left: 52px; width: 16px; }
+  .creature-pin .pin-label>span { font-size: 10px; }
+  .creature-pin .pin-label .observation-link { font-size: 8px; }
+  .hero-bottom { bottom: 52px; }
+  .depth-window { border-radius: 48% 48% 2px 2px / 30% 30% 2px 2px; }
+}
+@media (max-width:350px) {
+  :root { --orbital-size: 100px; --orbital-inner: 80px; }
+  .hero-action-row .hero-description { max-width: 140px; font-size: 12px; }
+  .hero-action-row { gap: 12px; }
+  .dive-label { gap: 7px; }
+  .dive-label>span { font-size: 9px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .dive-control:hover .dive-orbit,.dive-control:focus-visible .dive-orbit,
+  .dive-control:hover .dive-label>svg,.creature-pin:hover .observation-target,
+  .creature-pin:focus-visible .observation-target,.creature-pin:hover .observation-link>span,
+  .visit-lens:hover .visit-lens-arrow svg { transform: none; }
+  .dive-control .dive-water { transition: none; transform: translateY(60%); }
+  .dive-control:hover .dive-water,.dive-control:focus-visible .dive-water { transform: translateY(60%); }
+}

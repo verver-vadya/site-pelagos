@@ -9,6 +9,7 @@
   <title>Пелагос — океан ближе, чем кажется</title>
   <link rel="preload" href="assets/panorama.webp" as="image" fetchpriority="high">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="immersive.css">
   <script src="app.js" defer></script>
 </head>
 <body>
@@ -34,26 +35,31 @@
           <span><strong>пелагос</strong><small>океанариум</small></span>
         </a>
         <nav class="navigation" aria-label="Основная навигация">
-          <a href="#inhabitants">Обитатели</a><a href="#depth">Глубина</a><button data-open="visit">Ваш визит</button>
+          <a href="#depth"><span class="nav-index" aria-hidden="true">02</span> Глубина</a><a href="#inhabitants"><span class="nav-index" aria-hidden="true">03</span> Обитатели</a><button data-open="visit"><span class="nav-index" aria-hidden="true">↗</span> Ваш визит</button>
         </nav>
-        <button class="header-action" data-open="visit">Спланировать визит <svg aria-hidden="true"><use href="#arrow"></use></svg></button>
+        <button class="header-action visit-lens" data-open="visit"><span>Спланировать визит</span><span class="visit-lens-arrow"><svg aria-hidden="true"><use href="#arrow"></use></svg></span></button>
         <button class="mobile-menu" data-open="menu" aria-label="Открыть меню"><span></span><span></span></button>
       </header>
 
       <div class="hero-copy">
         <p class="eyebrow"><span class="small-line"></span> ПО ТУ СТОРОНУ СТЕКЛА</p>
         <h1 id="hero-title">Океан ближе,<br>чем кажется.</h1>
-        <p class="hero-description">Целый мир — на расстоянии взгляда.<br>Познакомьтесь с ним в «Пелагосе».</p>
-        <a class="primary-button" href="#depth"><span>Начать погружение</span><svg aria-hidden="true"><use href="#down"></use></svg></a>
+        <div class="hero-action-row">
+          <p class="hero-description">Целый мир — на расстоянии взгляда.<br>Познакомьтесь с ним в «Пелагосе».</p>
+          <a class="dive-control" href="#depth" aria-label="Начать погружение">
+            <svg class="dive-orbit" viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="76"/><path d="M80 0v9m0 142v9M0 80h9m142 0h9M26 26l6 6m96 96 6 6M26 134l6-6m96-96 6-6"/><path class="orbit-arc" d="M80 4a76 76 0 0 1 76 76"/></svg>
+            <span class="dive-lens"><span class="dive-water" aria-hidden="true"><svg viewBox="0 0 160 180" preserveAspectRatio="none"><path d="M0 16C40-16 90 45 160 9V180H0Z"/></svg></span><span class="dive-label"><small>ПЕЛАГОС / 01</small><span>Погрузиться</span><svg aria-hidden="true"><use href="#down"></use></svg></span></span>
+          </a>
+        </div>
       </div>
 
       <button class="creature-pin" data-open="manta" aria-label="Узнать об океанической манте">
-        <span class="pin-circle">+</span><span class="pin-label"><small>ЗНАКОМЬТЕСЬ</small><span>Океаническая манта <span aria-hidden="true">↗</span></span></span>
+        <span class="observation-target" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M7 17V7h10m14 0h10v10m0 14v10H31m-14 0H7V31"/><circle cx="24" cy="24" r="5"/><path d="M24 15v-3m0 24v-3m-9-9h-3m24 0h-3"/></svg></span><span class="pin-label"><small>НАБЛЮДЕНИЕ 01</small><span>Океаническая манта</span><span class="observation-link">Рассмотреть поближе <span aria-hidden="true">↗</span></span></span>
       </button>
 
       <div class="hero-bottom">
         <a class="chapter-link" href="#depth"><span class="round-arrow"><svg aria-hidden="true"><use href="#down"></use></svg></span><span>Прокрутите,<br>чтобы узнать больше</span></a>
-        <p class="scene-number"><span>01</span><span class="scene-rule"></span> ПАНОРАМНОЕ ОКНО</p>
+        <nav class="chapter-scale" aria-label="Навигация по погружению"><a href="#main" class="current" aria-label="Панорамное окно"><span>01</span><i aria-hidden="true"></i><small>Окно</small></a><span class="chapter-scale-line" aria-hidden="true"></span><a href="#depth" aria-label="Глубина"><span>02</span><i aria-hidden="true"></i><small>Глубина</small></a><span class="chapter-scale-line" aria-hidden="true"></span><a href="#inhabitants" aria-label="Обитатели"><span>03</span><i aria-hidden="true"></i><small>Встреча</small></a></nav>
         <button class="motion-button" aria-pressed="false"><span class="motion-icon" aria-hidden="true">Ⅱ</span><span>Остановить движение</span></button>
       </div>
       <span class="window-edge" aria-hidden="true"></span>
