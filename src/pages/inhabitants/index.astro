@@ -1,0 +1,18 @@
+---
+import Shell from '../../layouts/Shell.astro';
+import Icon from '../../components/Icon.astro';
+import {species} from '../../data/ocean';
+import {url} from '../../lib/paths';
+const groups=['Все','Скаты и акулы','Костные рыбы','Рептилии','Беспозвоночные'];
+---
+<Shell title="Обитатели" active="inhabitants">
+<header class="page-intro"><p class="eyebrow">АТЛАС / ЖИЗНЬ В ВОДЕ</p><h1>За каждым силуэтом —<br/>своя история.</h1><p class="lead">Присмотритесь к тем, кто живёт в толще воды, среди рифов и у самого дна. Здесь можно узнать их ближе.</p></header>
+<section class="subsection" aria-label="Каталог обитателей" data-catalog>
+  <label class="form-field">Найти обитателя<input type="search" name="species" placeholder="Например, манта" data-search autocomplete="off"/></label>
+  <div class="filters" role="group" aria-label="Группы животных">{groups.map((group,i)=><button class="filter" data-filter={group} aria-pressed={i===0?'true':'false'}>{group}</button>)}</div>
+  <p class="result-count" data-result-count aria-live="polite">{species.length} обитателей в атласе</p>
+  <div class="species-grid">{species.map((animal,i)=><article class="species-card" data-species-card data-search-text={`${animal.name} ${animal.latin}`.toLowerCase()} data-group={animal.group}>
+    <a href={url(`inhabitants/${animal.slug}/`)}><div class="species-visual"><img src={url(`media/species/${animal.slug}.webp`)} alt={animal.name} loading="lazy" width="600" height="440"/><span class="pill">{animal.virtual?'Виртуальный океан':animal.depth}</span></div><p class="eyebrow" style="margin-top:20px">{String(i+1).padStart(2,'0')} / {animal.group}</p><h3>{animal.name}</h3><p class="latin">{animal.latin}</p><p class="summary">{animal.summary}</p><span class="text-link">Рассмотреть ближе <Icon/></span></a>
+  </article>)}</div>
+  <p class="empty-state" data-catalog-empty hidden>Никого не нашли. Попробуйте другое название или выберите «Все».</p>
+</section></Shell>

@@ -1,0 +1,11 @@
+---
+import Shell from '../layouts/Shell.astro';
+import Icon from '../components/Icon.astro';
+import AquariumMap from '../components/AquariumMap.astro';
+import {species,zones} from '../data/ocean';
+import {url} from '../lib/paths';
+---
+<Shell title="Карта залов" active="map">
+<header class="page-intro"><p class="eyebrow">МАРШРУТ / ЧЕТЫРЕ ХАРАКТЕРА ВОДЫ</p><h1>Найдите своё<br/>место у стекла.</h1><p class="lead">Выберите зал на схеме или в списке. Соберите маршрут из встреч, ради которых хочется задержаться.</p></header>
+<section class="subsection" data-map><div class="map-layout"><div><AquariumMap/><div class="zone-list" role="group" aria-label="Выбор зала">{zones.map((zone,i)=><button class="filter" data-zone={zone.id} aria-pressed={i===0?'true':'false'}>{zone.number} / {zone.name}</button>)}</div></div><div class="map-panel">{zones.map((zone,i)=><article data-zone-panel={zone.id} hidden={i!==0}><p class="eyebrow">ЗАЛ {zone.number} / {zone.short}</p><h2>{zone.name}</h2><p>{zone.description}</p><div class="route-summary"><span class="eyebrow">КОГО ИСКАТЬ</span>{species.filter(animal=>animal.zone===zone.id&&!animal.virtual).map(animal=><a href={url(`inhabitants/${animal.slug}/`)}>{animal.name} ↗</a>)}</div><button class="action" data-route-zone={zone.id} aria-pressed="false"><span data-route-label>Добавить в маршрут</span><Icon name="plus"/></button></article>)}</div></div><div class="route-summary"><h3>Мой маршрут</h3><p class="status" data-route-summary aria-live="polite">Выберите интересующие залы.</p><a class="text-link" href={url('visit/')}>Перейти к плану визита <Icon/></a></div><p class="concept-line">Это схема вымышленного океанариума. Порядок залов и маршруты созданы для концепта.</p></section>
+</Shell>

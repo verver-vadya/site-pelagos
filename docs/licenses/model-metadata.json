@@ -1,0 +1,95 @@
+[
+  {
+    "name": "manta",
+    "asset": {
+      "generator": "Khronos glTF Blender I/O v5.2.40",
+      "version": "2.0"
+    },
+    "animations": [
+      "Swim"
+    ],
+    "originalBytes": 2874096
+  },
+  {
+    "name": "turtle",
+    "asset": {
+      "generator": "Khronos glTF Blender I/O v5.2.40",
+      "version": "2.0"
+    },
+    "animations": [],
+    "originalBytes": 2016716
+  },
+  {
+    "name": "shark",
+    "asset": {
+      "generator": "Khronos glTF Blender I/O v5.2.40",
+      "version": "2.0"
+    },
+    "animations": [
+      "Bite",
+      "Swim"
+    ],
+    "originalBytes": 4070344
+  },
+  {
+    "name": "sardine",
+    "asset": {
+      "generator": "Khronos glTF Blender I/O v5.2.40",
+      "version": "2.0"
+    },
+    "animations": [],
+    "originalBytes": 801448
+  },
+  {
+    "name": "kingfish",
+    "asset": {
+      "generator": "Khronos glTF Blender I/O v5.2.40",
+      "version": "2.0"
+    },
+    "animations": [],
+    "originalBytes": 3058596
+  },
+  {
+    "name": "tuna",
+    "asset": {
+      "generator": "Khronos glTF Blender I/O v5.2.40",
+      "version": "2.0"
+    },
+    "animations": [
+      "Swim"
+    ],
+    "originalBytes": 4658604
+  },
+  {
+    "name": "jelly",
+    "asset": {
+      "extras": {
+        "author": "n- (https://sketchfab.com/n-)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/simple-moon-jellyfish-baked-animation-3d911c511f2744ec9bfb99d46d2d6e14",
+        "title": "Simple Moon Jellyfish (Baked Animation)"
+      },
+      "generator": "Sketchfab-12.66.0",
+      "version": "2.0"
+    },
+    "animations": [
+      "Loop-400"
+    ],
+    "originalBytes": 5077132
+  },
+  {
+    "name": "octopus",
+    "asset": {
+      "extras": {
+        "author": "ffish.asia / floraZia.com (https://sketchfab.com/ffishAsia-and-floraZia)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/common-octopus-octopus-vulgaris-7860bbb4a7044522a308e5b527121a62",
+        "title": "マダコ Common Octopus, Octopus vulgaris"
+      },
+      "generator": "Sketchfab-12.66.0",
+      "version": "2.0"
+    },
+    "animations": [],
+    "originalBytes": 42126024
+  }
+]

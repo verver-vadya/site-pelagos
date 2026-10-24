@@ -1,0 +1,7 @@
+---
+import Shell from '../layouts/Shell.astro';
+import Icon from '../components/Icon.astro';
+import {species} from '../data/ocean';
+import {url} from '../lib/paths';
+---
+<Shell title="Дневник исследователя"><header class="page-intro"><p class="eyebrow">ДНЕВНИК / ЛИЧНЫЕ ОТКРЫТИЯ</p><h1>Кого вы сегодня<br/>рассмотрели?</h1><p class="lead">Отмечайте тех, с кем уже познакомились в онлайн-атласе. Иногда стоит вернуться и заметить новую деталь.</p></header><section class="subsection"><div class="journal-header"><div class="journal-progress"><output data-journal-count aria-live="polite">0/{species.length}</output></div><p>Это ваш дневник наблюдений. Отметки хранятся только на этом устройстве. Чтобы убрать отметку, нажмите на неё ещё раз.</p></div>{species.map(animal=><article class="journal-row"><div><h3><a href={url(`inhabitants/${animal.slug}/`)}>{animal.name} ↗</a></h3><p>{animal.latin}</p></div><button data-found={animal.slug} aria-pressed="false"><span data-found-label>Отметить</span></button></article>)}<a class="action" style="margin-top:32px" href={url('inhabitants/')}><span>Продолжить знакомство</span><Icon/></a><p class="source-note" data-storage-status aria-live="polite"></p></section></Shell>

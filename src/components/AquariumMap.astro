@@ -1,0 +1,50 @@
+---
+import {zones} from '../data/ocean';
+const point=(x:number,y:number,z=0)=>[350+x*.86-y*.65,32+x*.32+y*.5-z];
+const p=(x:number,y:number,z=0)=>point(x,y,z).join(',');
+const floor=(x:number,y:number,w:number,h:number,z=0)=>`${p(x,y,z)} ${p(x+w,y,z)} ${p(x+w,y+h,z)} ${p(x,y+h,z)}`;
+const wall=(x:number,y:number,x2:number,y2:number,h=36)=>`${p(x,y)} ${p(x2,y2)} ${p(x2,y2,h)} ${p(x,y,h)}`;
+---
+<svg class="aquarium-map isometric-map" viewBox="0 0 960 650" role="group" aria-label="Объёмная схема залов Пелагоса, вид сверху под углом">
+  <defs><linearGradient id="tank-water" x2=".3" y2="1"><stop stop-color="#1d7897"/><stop offset="1" stop-color="#0b3651"/></linearGradient><linearGradient id="hall-wall" x2="0" y2="1"><stop stop-color="#29536a"/><stop offset="1" stop-color="#112d43"/></linearGradient></defs>
+  <ellipse cx="467" cy="410" rx="360" ry="150" fill="#000a16" opacity=".55"/>
+  <polygon points={wall(50,540,680,540, -18)} fill="#081c30" stroke="#244052"/>
+  <polygon points={floor(50,55,630,485)} fill="#102b40" stroke="#3a5669"/>
+  <path d={`M${p(410,565)} L${p(410,290)} L${p(220,290)} M${p(410,290)} L${p(650,290)}`} fill="none" stroke="#74afc0" stroke-opacity=".65" stroke-width="2" stroke-dasharray="5 9"/>
+  {zones.map((zone,i)=>{
+    const {x,y,w,h}=zone;const center=point(x+w/2,y+h/2);
+    return <g role="button" tabindex="0" class="map-zone iso-room" data-zone={zone.id} aria-label={`${zone.number}. ${zone.name}`} aria-pressed={i===0?'true':'false'}>
+      <polygon class="room-floor" points={floor(x,y,w,h)}/>
+      <polygon class="room-wall back" points={wall(x,y,x+w,y)}/>
+      <polygon class="room-wall side" points={wall(x,y,x,y+h)}/>
+      <polygon class="room-water" points={floor(x+14,y+14,w-28,h-64,2)}/>
+      <path d={`M${p(x+22,y+35,3)} L${p(x+w-24,y+35,3)} M${p(x+25,y+45,3)} L${p(x+w-35,y+45,3)}`} fill="none" stroke="#9ad8e3" stroke-opacity=".24"/>
+      <polygon class="room-wall front" points={wall(x+w,y,x+w,y+h,9)}/>
+      <polygon class="room-wall front" points={wall(x,y+h,x+w*.38,y+h,9)}/>
+      <polygon class="room-wall front" points={wall(x+w*.64,y+h,x+w,y+h,9)}/>
+      <path class="room-rim" d={`M${p(x,y+h,36)} L${p(x,y,36)} L${p(x+w,y,36)} M${p(x+w*.38,y+h)} L${p(x+w*.64,y+h)}`}/>
+      <text class="iso-number" x={center[0]} y={center[1]-8} text-anchor="middle">{zone.number}</text>
+      <text class="iso-name" x={center[0]} y={center[1]+16} text-anchor="middle">{zone.id==='forms'?'Формы':zone.name}</text>
+    </g>;
+  })}
+  <g class="map-entrance" aria-label="Вход в океанариум">
+    <polygon points={floor(367,525,86,72, -1)} fill="#1e3b4c" stroke="#91c2ce" stroke-opacity=".5"/>
+    <polygon points={wall(365,539,378,539,61)} fill="#7aabb8"/>
+    <polygon points={wall(445,539,458,539,61)} fill="#588693"/>
+    <polygon points={`${p(365,539,61)} ${p(458,539,61)} ${p(458,539,75)} ${p(365,539,75)}`} fill="#a0c6cc"/>
+    <polygon points={`${p(365,539,75)} ${p(458,539,75)} ${p(458,553,75)} ${p(365,553,75)}`} fill="#527b8b"/>
+    <path d={`M${p(411,588,1)} L${p(411,551,1)} M${p(398,564,1)} L${p(411,551,1)} L${p(424,564,1)}`} fill="none" stroke="#c6eaf0" stroke-width="3"/>
+    <text x="295" y="555" text-anchor="middle" class="entrance-label">ВХОД</text><text x="295" y="575" text-anchor="middle" class="entrance-caption">НАЧАЛО ВАШЕГО МАРШРУТА</text>
+  </g>
+  <text x="42" y="605" class="map-caption">ПЕЛАГОС / ПЛАН ПРОГУЛКИ</text><text x="918" y="605" text-anchor="end" class="map-caption">ВЫБЕРИТЕ ЗАЛ</text>
+</svg>
+<style>
+  .isometric-map{background:#041a2b;border:0;overflow:visible;min-height:0}
+  .room-floor{fill:#183b50;stroke:#537789;stroke-width:1.2;transition:fill 200ms ease,stroke 200ms ease}
+  .room-wall{fill:url(#hall-wall);stroke:#4e7082;stroke-width:1}.room-wall.side{fill:#16354a}.room-wall.front{fill:#24495c}
+  .room-water{fill:url(#tank-water);stroke:#39839a;stroke-width:.8}.room-rim{fill:none;stroke:#7da7b6;stroke-width:1.2}
+  .iso-room .iso-number{font-size:27px;fill:#c5e8ee;font-weight:300}.iso-room .iso-name{font-size:13px;fill:#eef8fa;paint-order:stroke;stroke:#12364c;stroke-width:3px}
+  .iso-room[aria-pressed=true] .room-floor,.iso-room:focus-visible .room-floor{fill:#27617b;stroke:#d2f5fc;stroke-width:2.5}.iso-room[aria-pressed=true] .room-rim,.iso-room:focus-visible .room-rim{stroke:#d2f5fc;stroke-width:2}
+  .entrance-label{font:500 17px Manrope,sans-serif;fill:#e3f6f9;letter-spacing:.16em}.entrance-caption,.map-caption{font:9px Manrope,sans-serif;fill:#8eb4c3;letter-spacing:.12em}
+  @media(hover:hover) and (pointer:fine){.iso-room:hover .room-floor{fill:#23556d}.iso-room:hover .room-rim{stroke:#d2f5fc}}
+</style>

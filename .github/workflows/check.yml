@@ -34,12 +34,22 @@ jobs:
           path: .base-site
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
           cache-dependency-path: .github/check/package-lock.json
       - run: npm ci
+      - name: Установить зависимости сайта
+        working-directory: .
+        run: npm ci
+      - name: Проверка типов и сборка Astro
+        working-directory: .
+        env:
+          BUILD_SHA: ${{ github.sha }}
+        run: npm run check && npm run build
       - run: npx playwright install --with-deps --only-shell chromium
       - name: Проверка
+        env:
+          SITE_ROOT: dist
         run: npm run ${{ inputs.release && 'check:release' || 'check' }} -- ${{ github.event_name == 'pull_request' && '--base ../../.base-site' || '' }}
       - name: Скриншоты и отчёт
         if: always()

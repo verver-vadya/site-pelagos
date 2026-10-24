@@ -1,0 +1,5 @@
+---
+import Shell from '../layouts/Shell.astro';
+import {url} from '../lib/paths';
+---
+<Shell title="Страница не найдена"><section class="page-intro" style="min-height:65vh"><p class="eyebrow">404 / ВНЕ МАРШРУТА</p><h1>Здесь пока<br/>только вода.</h1><p class="lead">Похоже, вы свернули с маршрута. Вернитесь к панорамному окну или загляните в атлас.</p><a class="action filled" style="margin-top:32px" href={url()}>К панорамному окну ↗</a></section></Shell>

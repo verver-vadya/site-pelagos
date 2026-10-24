@@ -1,0 +1,29 @@
+---
+import '../styles/global.css';
+import '../styles/scene.css';
+import Icon from '../components/Icon.astro';
+import { url } from '../lib/paths';
+interface Props { title:string; description?:string; active?:string; home?:boolean; }
+const { title, description='Пелагос — концепт океанариума. Погружение, обитатели и маршруты.', active='', home=false } = Astro.props;
+const menu=[['depth/','Глубина','depth'],['inhabitants/','Обитатели','inhabitants'],['map/','Карта','map'],['schedule/','Программа','schedule']];
+---
+<!doctype html><html lang="ru"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="theme-color" content="#04172d"/><meta name="description" content={description}/><meta name="robots" content="noindex, nofollow"/>
+<meta name="build" content={import.meta.env.BUILD_SHA||'local'}/>
+<link rel="icon" type="image/svg+xml" href={url('favicon.svg')}/><title>{title} — Пелагос</title>
+<meta property="og:title" content={`${title} — Пелагос`}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/>
+<meta property="og:image" content={new URL(url('media/panorama.webp'),Astro.site).href}/>
+</head><body class:list={[{home}]}>
+<a class="skip" href="#main">Перейти к содержимому</a>
+<header class="site-header">
+  <a class="brand" href={url()} aria-label="Пелагос — главная"><Icon name="window"/><span><strong>пелагос</strong><small>океанариум · концепт</small></span></a>
+  <nav class="desktop-nav" aria-label="Основная навигация">{menu.map(([path,label,id])=><a href={url(path)} aria-current={active===id?'page':undefined}>{label}</a>)}</nav>
+  <a class="visit-lens" href={url('visit/')} aria-current={active==='visit'?'page':undefined}><span>Ваш визит</span><span class="arrow-disc"><Icon/></span></a>
+  <button class="menu-toggle" data-dialog="site-menu" aria-label="Открыть меню"><span></span><span></span></button>
+</header>
+<main id="main"><slot/></main>
+<footer class="site-footer"><div><a class="footer-brand" href={url()}>пелагос</a><p>Океан ближе, чем кажется.</p></div><nav aria-label="Дополнительная навигация"><a href={url('journal/')}>Дневник исследователя</a><a href={url('care/')}>За стеклом</a><a href={url('about/')}>О концепте</a></nav><div class="footer-note"><span>Вымышленный океанариум.<br/>Билеты и программа — демонстрационные.</span><a href="https://t.me/notverver" target="_blank" rel="noopener noreferrer">Дизайн и разработка — verver ↗</a></div></footer>
+<dialog id="site-menu" class="nav-dialog" aria-labelledby="menu-title"><button class="close-button" data-close aria-label="Закрыть меню"><Icon name="close"/></button><p class="eyebrow" id="menu-title">ПЕЛАГОС / НАВИГАЦИЯ</p><nav aria-label="Мобильная навигация">{[...menu,['visit/','Ваш визит','visit'],['journal/','Дневник исследователя','journal']].map(([path,label])=><a href={url(path)}>{label}<Icon/></a>)}</nav></dialog>
+<script>import '../scripts/site';</script>
+</body></html>
