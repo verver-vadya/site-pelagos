@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ru" data-font="manrope" data-mark="window">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#03172e">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Пелагос — концепт океанариума. Первое знакомство с подводным миром.">
+  <title>Пелагос — океан ближе, чем кажется</title>
+  <link rel="preload" href="assets/panorama.webp" as="image" fetchpriority="high">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Перейти к содержимому</a>
+  <svg class="symbols" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="mark-window" viewBox="0 0 48 48"><path d="M8 38V23a16 16 0 0 1 32 0v15Z"/><path d="M8 29c8-10 18 10 32-2M8 35c9-9 20 7 32-2"/></symbol>
+    <symbol id="mark-ray" viewBox="0 0 48 48"><path d="M24 14C18 21 12 19 5 12c0 13 8 22 19 19 11 3 19-6 19-19-7 7-13 9-19 2Z"/><path d="m24 31 3 12M21 16l3-5 3 5"/></symbol>
+    <symbol id="mark-wave" viewBox="0 0 48 48"><circle cx="24" cy="24" r="19"/><path d="M5 26c9-12 19 12 38-3M8 34c9-8 21 6 32-2"/></symbol>
+    <symbol id="mark-depth" viewBox="0 0 48 48"><path d="M6 12c9-9 27-9 36 0M10 20c7-7 21-7 28 0M14 28c5-5 15-5 20 0M18 36c3-3 9-3 12 0"/></symbol>
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="down" viewBox="0 0 24 24"><path d="M12 4v16m-6-6 6 6 6-6"/></symbol>
+    <symbol id="close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  </svg>
+
+  <main id="main">
+    <section class="panorama" aria-labelledby="hero-title">
+      <div class="water-image" aria-hidden="true"></div>
+      <div class="water-shade" aria-hidden="true"></div>
+      <div class="water-dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <header class="header">
+        <a class="brand" href="./" aria-label="Пелагос — главная">
+          <svg class="brand-symbol" aria-hidden="true"><use href="#mark-window"></use></svg>
+          <span><strong>пелагос</strong><small>океанариум</small></span>
+        </a>
+        <nav class="navigation" aria-label="Основная навигация">
+          <a href="#inhabitants">Обитатели</a><a href="#depth">Глубина</a><button data-open="visit">Ваш визит</button>
+        </nav>
+        <button class="header-action" data-open="visit">Спланировать визит <svg aria-hidden="true"><use href="#arrow"></use></svg></button>
+        <button class="mobile-menu" data-open="menu" aria-label="Открыть меню"><span></span><span></span></button>
+      </header>
+
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="small-line"></span> ПО ТУ СТОРОНУ СТЕКЛА</p>
+        <h1 id="hero-title">Океан ближе,<br>чем кажется.</h1>
+        <p class="hero-description">Целый мир — на расстоянии взгляда.<br>Познакомьтесь с ним в «Пелагосе».</p>
+        <a class="primary-button" href="#depth"><span>Начать погружение</span><svg aria-hidden="true"><use href="#down"></use></svg></a>
+      </div>
+
+      <button class="creature-pin" data-open="manta" aria-label="Узнать об океанической манте">
+        <span class="pin-circle">+</span><span class="pin-label"><small>ЗНАКОМЬТЕСЬ</small><span>Океаническая манта <span aria-hidden="true">↗</span></span></span>
+      </button>
+
+      <div class="hero-bottom">
+        <a class="chapter-link" href="#depth"><span class="round-arrow"><svg aria-hidden="true"><use href="#down"></use></svg></span><span>Прокрутите,<br>чтобы узнать больше</span></a>
+        <p class="scene-number"><span>01</span><span class="scene-rule"></span> ПАНОРАМНОЕ ОКНО</p>
+        <button class="motion-button" aria-pressed="false"><span class="motion-icon" aria-hidden="true">Ⅱ</span><span>Остановить движение</span></button>
+      </div>
+      <span class="window-edge" aria-hidden="true"></span>
+    </section>
+
+    <section class="explore" id="depth" aria-labelledby="depth-title">
+      <div class="section-heading"><p class="eyebrow">02 / ГЛУБИНА</p><p class="section-aside">У каждого слоя воды<br>своя история.</p></div>
+      <div class="depth-layout">
+        <div class="depth-intro"><h2 id="depth-title">Задержите взгляд.<br>Здесь есть жизнь.</h2><p>От солнечных бликов до тихой темноты.<br>Выберите, с чего начать знакомство с океаном.</p><div class="depth-tabs" role="group" aria-label="Слои подводного мира"><button data-depth="0" aria-pressed="true">На свету</button><button data-depth="1" aria-pressed="false">В синеве</button><button data-depth="2" aria-pressed="false">Во тьме</button></div><p class="depth-description" aria-live="polite">У поверхности вода пронизана светом. Здесь начинается наше погружение.</p></div>
+        <div class="depth-window" data-layer="0"><img src="assets/panorama.webp" alt="Манта в синей воде, освещённой лучами сверху" loading="lazy" width="1672" height="941"><div class="depth-filter" aria-hidden="true"></div><span class="depth-window-label">ПЕЛАГОС / ГЛУБИНА</span><button class="depth-open" data-open="manta" aria-label="Открыть карточку манты"><svg aria-hidden="true"><use href="#arrow"></use></svg></button></div>
+      </div>
+    </section>
+
+    <section class="inhabitants" id="inhabitants" aria-labelledby="inhabitants-title">
+      <div><p class="eyebrow">03 / ЗНАКОМСТВО</p><h2 id="inhabitants-title">За силуэтом —<br>целая история.</h2></div>
+      <button class="inhabitant-row" data-open="manta"><span class="inhabitant-index">01</span><span class="inhabitant-name">Океаническая манта<small>Mobula birostris</small></span><span class="inhabitant-action">Узнать ближе <svg aria-hidden="true"><use href="#arrow"></use></svg></span></button>
+    </section>
+
+    <footer><a class="footer-brand" href="#main">пелагос</a><span>Концепт вымышленного океанариума</span><a href="https://t.me/notverver" target="_blank" rel="noopener noreferrer">Дизайн и разработка — verver ↗</a></footer>
+  </main>
+
+  <button class="design-trigger" data-open="design" aria-label="Выбрать вариант знака и шрифта">Варианты оформления <span aria-hidden="true">↗</span></button>
+
+  <dialog id="manta" aria-labelledby="manta-title" class="sheet creature-sheet">
+    <button class="close" data-close aria-label="Закрыть карточку"><svg aria-hidden="true"><use href="#close"></use></svg></button>
+    <div class="sheet-image"><img src="assets/panorama.webp" alt="Художественная визуализация манты в воде" width="1672" height="941"></div>
+    <div class="sheet-content"><p class="eyebrow">ГИД ПО ОБИТАТЕЛЯМ / 01</p><h2 id="manta-title">Океаническая<br>манта</h2><p class="latin">Mobula birostris</p><p>Огромные грудные плавники похожи на крылья. Плавно двигая ими, манта словно летит сквозь толщу воды.</p><p>Этот крупнейший вид скатов питается преимущественно планктоном. Узор из пятен на брюшной стороне помогает различать отдельных животных.</p><div class="fact"><span>Её мир</span><strong>Открытый океан</strong></div><div class="fact"><span>Питание</span><strong>Преимущественно планктон</strong></div><a class="source-link" href="https://www.fisheries.noaa.gov/species/giant-manta-ray" target="_blank" rel="noopener noreferrer">Подробнее о виде — NOAA Fisheries ↗</a></div>
+  </dialog>
+
+  <dialog id="visit" aria-labelledby="visit-title" class="sheet text-sheet">
+    <button class="close" data-close aria-label="Закрыть план визита"><svg aria-hidden="true"><use href="#close"></use></svg></button><div class="sheet-content"><p class="eyebrow">ВАШ МАРШРУТ</p><h2 id="visit-title">Какой океан<br>откроете вы?</h2><p>Выберите настроение прогулки. Сохраним его на этом устройстве как начало вашего маршрута.</p><div class="route-options"><button data-route="Вся семья" aria-pressed="false"><span>Вся семья</span><small>Знакомство, наблюдения и открытия вместе</small><span aria-hidden="true">↗</span></button><button data-route="В своём ритме" aria-pressed="false"><span>В своём ритме</span><small>Задержаться у стекла и рассмотреть детали</small><span aria-hidden="true">↗</span></button></div><p id="route-status" class="route-status" aria-live="polite"></p><p class="prototype-note">«Пелагос» — вымышленный океанариум. Это прототип планирования визита, реальные билеты здесь не продаются.</p></div>
+  </dialog>
+
+  <dialog id="menu" aria-labelledby="menu-title" class="sheet text-sheet"><button class="close" data-close aria-label="Закрыть меню"><svg aria-hidden="true"><use href="#close"></use></svg></button><div class="sheet-content"><p id="menu-title" class="eyebrow">ПЕЛАГОС / МЕНЮ</p><nav class="menu-links" aria-label="Мобильная навигация"><a href="#inhabitants">Обитатели ↗</a><a href="#depth">Глубина ↗</a><button data-open="visit">Ваш визит ↗</button></nav></div></dialog>
+
+  <dialog id="design" aria-labelledby="design-title" class="sheet text-sheet design-sheet"><button class="close" data-close aria-label="Закрыть выбор оформления"><svg aria-hidden="true"><use href="#close"></use></svg></button><div class="sheet-content"><p class="eyebrow">ВЫБОР НА РЕАЛЬНОМ ЭКРАНЕ</p><h2 id="design-title">Характер<br>«Пелагоса»</h2><p>Выберите знак и шрифт, затем закройте панель: вариант применится к главной и сохранится в адресе страницы.</p><fieldset><legend>Знак</legend><div class="mark-options"><button data-mark="window" aria-pressed="true"><svg aria-hidden="true"><use href="#mark-window"></use></svg>Окно</button><button data-mark="ray" aria-pressed="false"><svg aria-hidden="true"><use href="#mark-ray"></use></svg>Манта</button><button data-mark="wave" aria-pressed="false"><svg aria-hidden="true"><use href="#mark-wave"></use></svg>Волна</button><button data-mark="depth" aria-pressed="false"><svg aria-hidden="true"><use href="#mark-depth"></use></svg>Глубина</button></div></fieldset><label class="font-select">Шрифт заголовков<select id="font-select"><option value="manrope">Manrope — современный</option><option value="prata">Prata — монументальный</option><option value="cormorant">Cormorant — редакционный</option><option value="oranienbaum">Oranienbaum — камерный</option></select></label></div></dialog>
+</body>
+</html>
