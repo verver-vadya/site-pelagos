@@ -38,3 +38,29 @@
 @media(max-width:900px){.family-grid{grid-template-columns:1fr;gap:48px}}
 @media(max-width:600px){.visit-facts dd{font-size:20px}.child-route a{grid-template-columns:40px 1fr 20px;gap:14px}.child-route .station{width:40px;height:40px}.child-route strong{font-size:18px}.drift svg{width:90%}}
 @media(prefers-reduced-motion:reduce){.drift-school{animation:none}}
+
+/* «Глубина»: the scene stays on screen while the chapters scroll over it. */
+.descent{position:relative;--descent:0}
+.descent-stage{position:sticky;top:0;height:100svh;margin-bottom:-100svh;overflow:hidden;isolation:isolate;background:#01060d}
+.descent-stage>*{position:absolute;inset:0}
+.descent-water{z-index:-4;background:radial-gradient(90% 70% at 72% -10%,#2f86c9,#0a4c96 35%,#00214f 75%,#00173c)}
+.descent-stage>astro-island{z-index:-3;display:block}
+.descent-dark{z-index:-2;background:#01060d;opacity:calc(var(--descent)*var(--descent)*.92);pointer-events:none;transition:opacity 650ms var(--ease)}
+/* Without WebGL the gradient darkens by itself; with the scene the water does it. */
+.descent-stage:has(.aquarium-live.is-ready) .descent-dark{opacity:0}
+.descent-stage .aquarium-live{opacity:0;transition:opacity 650ms var(--ease)}.descent-stage .aquarium-live.is-ready{opacity:1}
+.descent-shade{z-index:-1;background:linear-gradient(90deg,rgba(1,10,24,.72),rgba(1,10,24,.25) 48%,transparent 70%)}
+.depth-gauge{inset:auto var(--pad) 50% auto!important;transform:translateY(50%);height:46svh;width:2px;background:var(--line)}
+.depth-gauge>i{position:absolute;left:-3px;top:0;width:8px;height:8px;border-radius:50%;background:var(--water);transform:translateY(calc(var(--descent)*46svh - 50%))}
+.depth-gauge>span{position:absolute;right:20px;top:0;transform:translateY(calc(var(--descent)*46svh - 50%));white-space:nowrap;font-size:15px;font-variant-numeric:tabular-nums;color:var(--white)}
+.descent-chapter{position:relative;min-height:100svh;display:flex;align-items:center;padding:120px var(--pad)}
+.descent-copy{max-width:520px;text-shadow:0 1px 18px rgba(1,10,24,.8)}
+.descent-copy h1{font-size:clamp(48px,5.6vw,96px);margin:20px 0 28px}.descent-copy h2{margin:16px 0 24px}
+.descent-copy>p:not(.eyebrow):not(.lead){font-size:18px;line-height:1.75;color:var(--white);opacity:.88}
+.descent-intro .hero-bottom{bottom:36px}
+.descent-animals{list-style:none;margin:32px 0 0;padding:0}.descent-animals a{display:grid;grid-template-columns:1fr 24px;gap:16px;align-items:center;padding:14px 0;border-top:1px solid var(--line);min-height:44px}.descent-animals strong{display:block;font-size:19px;font-weight:450}.descent-animals small{display:block;font-size:14px;font-style:italic;color:var(--muted);margin-top:2px}
+.descent-actions{display:flex;flex-wrap:wrap;align-items:center;gap:24px;margin-top:32px}.icon-up{transform:rotate(180deg)}
+.depth-page .hero-copy{top:32%}
+@media(hover:hover) and (pointer:fine){.descent-animals a:hover strong{color:var(--water)}}
+@media(max-width:600px){.descent-shade{background:linear-gradient(0deg,rgba(1,10,24,.85),rgba(1,10,24,.35) 60%,rgba(1,10,24,.15))}.descent-chapter{align-items:flex-end;padding:96px var(--pad) 96px}.descent-intro{align-items:center}.descent-copy h1{font-size:clamp(38px,11vw,48px)}.descent-copy>p:not(.eyebrow):not(.lead){font-size:16px}.depth-gauge{inset:104px var(--pad) auto auto!important;transform:none;height:auto;width:auto;background:none}.depth-gauge>i{display:none}.depth-gauge>span{position:static;display:block;transform:none;font-size:14px;padding:6px 12px;border:1px solid var(--line);border-radius:20px;background:rgba(1,10,24,.5)}}
+@media(prefers-reduced-motion:reduce){.descent-stage .aquarium-live{transition:none}}

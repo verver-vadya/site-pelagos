@@ -11,7 +11,8 @@ vec3 pelagosWater(vec3 dir,float dark){
  c=mix(c,${linear('#011636')},smoothstep(-.1,-.42,dir.y)*.6);
  vec3 sun=normalize(vec3(.42,.78,-.46));
  c+=${linear('#1a8ad6')}*pow(max(dot(dir,sun),0.),5.)*.9;
- return c*.8*(1.-dark*.27);
+ // Past the twilight layer the water goes almost black (dark runs 0–3.4 on the descent page).
+ return c*.8*max(.035,1.-dark*.27);
 }`;
 
 let installed=false;
