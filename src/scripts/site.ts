@@ -69,5 +69,27 @@ let motionPaused=motionQuery.matches;
 const renderMotion=()=>{document.documentElement.dataset.motionPaused=String(motionPaused);document.querySelectorAll<HTMLButtonElement>('[data-scene-pause]').forEach(button=>{button.disabled=motionQuery.matches;button.setAttribute('aria-pressed',String(motionPaused));const label=button.querySelector('[data-motion-label]');if(label)label.textContent=motionQuery.matches?'Без анимации':motionPaused?'Продолжить движение':'Остановить движение';});window.dispatchEvent(new CustomEvent('pelagos:pause',{detail:motionPaused}));};
 document.querySelectorAll('[data-scene-pause]').forEach(button=>button.addEventListener('click',()=>{motionPaused=!motionPaused;renderMotion();}));
 motionQuery.addEventListener('change',()=>{motionPaused=motionQuery.matches;renderMotion();});renderMotion();
-const layerCopy=['У поверхности свет помогает различать форму и рисунок. Следите за движением плавников и сменой направления.','Чем меньше света, тем важнее силуэт и движение. Отдельные обитатели появляются из воды и снова растворяются в синеве.','В темноте знакомая сцена читается иначе. Попробуйте задержать взгляд и заметить, как меняется ощущение расстояния.'];
-document.querySelectorAll<HTMLButtonElement>('[data-water-layer]').forEach(button=>button.addEventListener('click',()=>{const layer=Number(button.dataset.waterLayer);document.querySelectorAll('[data-water-layer]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));document.querySelectorAll('[data-layer-copy]').forEach(el=>el.textContent=layerCopy[layer]||layerCopy[0]);window.dispatchEvent(new CustomEvent('pelagos:depth',{detail:layer}));}));
+
+// «Глубина»: the page scroll is the descent. Each chapter is a stop; between them the depth interpolates.
+const descent=document.querySelector<HTMLElement>('[data-descent]');
+if(descent){
+  const stops=[...descent.querySelectorAll<HTMLElement>('[data-descent-stop]')];
+  const meters=[0,150,700,2000];
+  const readout=descent.querySelector('[data-depth-meters]');
+  let frame=0,last=-1;
+  const update=()=>{
+    frame=0;const anchor=innerHeight*.5;
+    const centers=stops.map(stop=>{const rect=stop.getBoundingClientRect();return rect.top+rect.height*.5;});
+    let level=0;
+    if(centers.length){if(anchor>=centers[centers.length-1])level=centers.length-1;else for(let i=0;i<centers.length-1;i++){if(anchor>=centers[i]&&anchor<centers[i+1]){level=i+(anchor-centers[i])/(centers[i+1]-centers[i]);break;}}}
+    if(Math.abs(level-last)<.001)return;last=level;
+    const i=Math.min(meters.length-2,Math.floor(level)),t=level-i;
+    const depth=Math.round((meters[i]+(meters[i+1]-meters[i])*t)/10)*10;
+    descent.style.setProperty('--descent',String(level/(stops.length-1)));
+    document.documentElement.dataset.descent=String(level);
+    if(readout)readout.textContent=`${depth.toLocaleString('ru-RU')} м`;
+    window.dispatchEvent(new CustomEvent('pelagos:descent',{detail:level}));
+  };
+  const schedule=()=>{if(!frame)frame=requestAnimationFrame(update);};
+  addEventListener('scroll',schedule,{passive:true});addEventListener('resize',schedule,{passive:true});update();
+}

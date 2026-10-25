@@ -3,6 +3,7 @@ export type Species = {
   summary: string; habitat: string; diet: string; fact: string; source: string;
   depth: string; model?: string; virtual?:boolean;
 };
+export type VisitEvent = { id:string; time:string; title:string; zone:string; duration:string; description:string; feeding?:boolean };
 export const species: Species[] = [
   { slug:'manta', name:'Океаническая манта', latin:'Mobula birostris', group:'Скаты и акулы', zone:'ocean', depth:'Толща воды',
     summary:'Широкие грудные плавники двигаются как крылья. Манта плавно скользит в воде, пропуская её через жабры.',
@@ -58,10 +59,13 @@ export const zones = [
   { id:'lagoon', number:'03', name:'Тихая лагуна', short:'В своём ритме', description:'Спокойная часть прогулки: подводные заросли, небольшие обитатели и возможность наблюдать без спешки.', x:80,y:310,w:300,h:180 },
   { id:'forms', number:'04', name:'Лаборатория форм', short:'Иное устройство жизни', description:'Медузы и осьминоги помогают увидеть, насколько по-разному может быть устроена жизнь под водой.', x:80,y:90,w:120,h:180 },
 ];
-export const events = [
-  { id:'window', time:'11:00', title:'У панорамного окна', zone:'ocean', duration:'20 минут', description:'Спокойное наблюдение за обитателями большой воды с рассказом об их движении и привычках.' },
+export const events: VisitEvent[] = [
+  { id:'window', time:'11:00', title:'У панорамного окна', zone:'ocean', duration:'20 минут', description:'Смотрим, как манты и стаи появляются из синевы, и разбираемся, кто как двигается.' },
+  { id:'feed-rays', time:'11:30', title:'Кормление скатов', zone:'ocean', duration:'15 минут', feeding:true, description:'Манта собирает корм у поверхности и разворачивает головные плавники, как воронку. Это видно прямо от стекла.' },
   { id:'reef', time:'12:30', title:'Как живёт риф', zone:'reef', duration:'25 минут', description:'Рассматриваем укрытия и знакомимся с разными стратегиями жизни среди кораллов.' },
+  { id:'feed-octopus', time:'13:00', title:'Обед осьминога', zone:'forms', duration:'10 минут', feeding:true, description:'Корм прячут в банку с крышкой, и осьминог сам ищет, как её открыть.' },
   { id:'care', time:'14:00', title:'Работа за стеклом', zone:'forms', duration:'20 минут', description:'Разговор о том, как специалисты наблюдают за животными и следят за состоянием воды.' },
   { id:'lagoon', time:'15:30', title:'Неспешная лагуна', zone:'lagoon', duration:'20 минут', description:'Прогулка для всей семьи: учимся замечать то, что легко пропустить при первом взгляде.' },
+  { id:'feed-school', time:'16:30', title:'Кормление стаи', zone:'ocean', duration:'10 минут', feeding:true, description:'Сардины разом поворачивают к корму, и вся стая меняет форму за секунду.' },
   { id:'jelly', time:'17:00', title:'Формы течения', zone:'forms', duration:'15 минут', description:'Наблюдаем за движением медуз и обсуждаем, чем оно отличается от плавания рыб.' },
 ];

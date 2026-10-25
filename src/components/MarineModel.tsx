@@ -29,7 +29,7 @@ export default function MarineModel({name,size=4,animated=true,speed=.7,submerge
         materials.push(material);return material;
       });
       object.material=Array.isArray(object.material)?converted:converted[0];
-      object.frustumCulled=false;
+      object.frustumCulled=false;object.castShadow=submerged;object.receiveShadow=submerged;
     });
     helpers.forEach(helper=>helper.removeFromParent());
     const box=new Box3().setFromObject(source);

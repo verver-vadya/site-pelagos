@@ -8,3 +8,4 @@ node_modules/
 .base-site/
 dist/
 .astro/
+.species-renders/
