@@ -24,7 +24,9 @@
 
 - `public/media/panorama.webp`: исходная художественная панорама, аварийный статичный кадр.
 - `public/media/environment.webp`: промежуточная версия среды, сохранена как материал работы.
-- `public/media/backdrop-unlit.webp`: среда без животных и запечённых лучей, OpenAI ImageGen; основа текстуры объёмного рельефа. Промпт: `photos/environment-prompt.md`.
+- `public/media/backdrop-unlit.webp`: среда без животных и запечённых лучей, OpenAI ImageGen. Промпт: `photos/environment-prompt.md`. С 25.10.2026 по нему восстановлен 3D-рельеф дна `public/models/seabed.glb` и карта мелкого рельефа `public/media/seabed/photo-detail.webp` (как — в `scripts/seabed/README.md`). Глубина оценена моделью Depth Anything V2 Small, Apache-2.0 (https://huggingface.co/depth-anything/Depth-Anything-V2-Small-hf); сама модель на сайт не входит.
+- `public/media/seabed/rock-*.webp`: Rock Pitted Mossy, Poly Haven (фото Dimitrios Savva, обработка Rico Cilliers), CC0, https://polyhaven.com/a/rock_pitted_mossy . Карты 1K, WebP.
+- `public/media/seabed/sand-*.webp`: Coast Sand 05, Poly Haven (фото Rob Tuytel, обработка Dario Barresi), CC0, https://polyhaven.com/a/coast_sand_05 . Уменьшено до 512 px, WebP.
 - `public/media/species/seahorse.webp`: художественная иллюстрация морского конька, OpenAI ImageGen, не документальная фотография.
 - Остальные `public/media/species/*.webp`: собственные снимки бесплатных 3D-моделей в локальной сцене, сохраняют атрибуцию исходных моделей.
 - `public/fonts/`: Manrope, SIL OFL 1.1; применяется в текущем сайте. Варианты Prata/Cormorant/Oranienbaum остались только в историческом прототипе.

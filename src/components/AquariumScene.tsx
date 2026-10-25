@@ -1,6 +1,6 @@
 import {Suspense,useCallback,useEffect,useMemo,useRef,useState} from 'react';
 import {Canvas,useFrame,useLoader,useThree} from '@react-three/fiber';
-import {Box3,Color,DoubleSide,Group,InstancedMesh,Mesh,MeshStandardMaterial,Object3D,ShaderMaterial,Vector2,Vector3,type WebGLProgramParametersWithUniforms} from 'three';
+import {BackSide,Box3,Color,DoubleSide,Group,InstancedMesh,Mesh,MeshStandardMaterial,Object3D,ShaderMaterial,Vector2,Vector3,type WebGLProgramParametersWithUniforms} from 'three';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MarineModel from './MarineModel';
 import SceneBoundary from './SceneBoundary';
@@ -8,6 +8,9 @@ import WaterHabitat from './WaterHabitat';
 import UnderwaterLight from './UnderwaterLight';
 import {modelUrl,type ModelName} from '../lib/models';
 import {url} from '../lib/paths';
+import {installWaterFog,waterColor} from '../lib/water';
+
+installWaterFog();
 
 type Pointer={current:Vector2};
 function SwimmingAnimal({name,size,origin,phase=0,playing,onReady,featured=false,instant=false,onArrivalStage}:{name:ModelName;size:number;origin:[number,number,number];phase?:number;playing:boolean;onReady?:()=>void;featured?:boolean;instant?:boolean;onArrivalStage?:(stage:string)=>void}){
@@ -83,11 +86,19 @@ function WaterOptics({pointer,playing}:{pointer:Pointer;playing:boolean}){
   return <mesh position={[0,0,5]}><planeGeometry args={[viewport.width*.68,viewport.height*.68]}/><primitive object={material} attach="material"/></mesh>;
 }
 
+// Open water behind everything, in the same colour the fog fades geometry into.
+function WaterBackdrop({layer}:{layer:number}){
+  const material=useMemo(()=>new ShaderMaterial({side:BackSide,depthWrite:false,fog:false,uniforms:{uDark:{value:0}},vertexShader:'varying vec3 vWorld;void main(){vec4 w=modelMatrix*vec4(position,1.);vWorld=w.xyz;gl_Position=projectionMatrix*viewMatrix*w;}',fragmentShader:`varying vec3 vWorld;uniform float uDark;${waterColor}\nvoid main(){gl_FragColor=vec4(pelagosWater(normalize(vWorld-cameraPosition),uDark),1.);\n#include <colorspace_fragment>\n}`}),[]);
+  useEffect(()=>()=>material.dispose(),[material]);
+  material.uniforms.uDark.value=layer;
+  return <mesh material={material} renderOrder={-1} frustumCulled={false}><sphereGeometry args={[100,32,16]}/></mesh>;
+}
+
 function WaterWorld({mode,playing,pointer,mobile,onReady,layer,reduced,onArrivalStage}:{mode:'aquarium'|'virtual';playing:boolean;pointer:Pointer;mobile:boolean;onReady:()=>void;layer:number;reduced:boolean;onArrivalStage:(stage:string)=>void}){
   return <>
     <WaterHabitat playing={playing} mobile={mobile} layer={layer}/>
-    <color attach="background" args={['#062d48']}/><fogExp2 attach="fog" args={['#062d48',.054+layer*.012]}/>
-    <ambientLight intensity={.18}/><hemisphereLight args={['#6bacc8','#071b2e',.85]}/>
+    <WaterBackdrop layer={layer}/><fogExp2 attach="fog" args={[new Color(layer,0,0),.028+layer*.01]}/>
+    <ambientLight intensity={.18}/><hemisphereLight args={['#5a9ad6','#0a2550',1.05]}/>
     <directionalLight position={[10,20,7]} intensity={3.8} color="#a6d6e5" castShadow shadow-mapSize={[mobile?512:1024,mobile?512:1024]} shadow-camera-left={-24} shadow-camera-right={24} shadow-camera-top={20} shadow-camera-bottom={-20} shadow-camera-far={90} shadow-bias={-.0004} shadow-normalBias={.025}/><directionalLight position={[-5,1,6]} intensity={1.1} color="#3173a1"/>
     <Suspense fallback={null}>
       <SwimmingAnimal name="manta" size={5.4} origin={[3.5,1.8,-2]} playing={playing} onReady={onReady} featured instant={reduced} onArrivalStage={onArrivalStage}/>
