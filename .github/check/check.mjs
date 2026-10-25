@@ -14,8 +14,9 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const ROOT = fileURLToPath(new URL("../../", import.meta.url));
-const OUT = path.join(ROOT, ".check");
+const REPO = fileURLToPath(new URL("../../", import.meta.url));
+const ROOT = process.env.SITE_ROOT ? path.resolve(REPO, process.env.SITE_ROOT) : REPO;
+const OUT = path.join(REPO, ".check");
 const RELEASE = process.argv.includes("--release");
 const BASE_ARG = process.argv.indexOf("--base");
 const BASE = BASE_ARG > 0 && process.argv[BASE_ARG + 1] ? path.resolve(process.argv[BASE_ARG + 1]) : null;

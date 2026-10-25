@@ -1,0 +1,10 @@
+---
+import CreatureViewer from '../../components/CreatureViewer';
+import {modelNames} from '../../lib/models';
+import '../../styles/global.css';
+import '../../styles/scene.css';
+export function getStaticPaths(){return import.meta.env.DEV?modelNames.map(model=>({params:{model}})):[];}
+const{model}=Astro.params;
+---
+<!doctype html><html lang="ru"><head><meta charset="utf-8"/><meta name="robots" content="noindex,nofollow"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Локальный рендер модели — {model}</title></head><body><CreatureViewer model={model!} label={model!} poster client:only="react"/></body></html>
+<style is:global>body{height:100vh;overflow:hidden;background:#04172d}.poster-view{position:fixed;inset:0;background:#04172d}.poster-view .viewer-canvas{inset:0;cursor:default}.poster-view .viewer-message{display:none}astro-dev-toolbar{display:none}</style>
