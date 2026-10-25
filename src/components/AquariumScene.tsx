@@ -34,7 +34,6 @@ function SwimmingAnimal({name,size,origin,phase=0,playing,onReady,featured=false
     const framedX=mobile&&featured?(x-origin[0])*.25:mobile?x*.32:x;
     group.current.position.set(framedX+distance*(featured?3:Math.sin(phase)*5),origin[1]+(mobile&&featured?.9:0)+Math.sin(time*.14+phase)*.17+distance*1.3,origin[2]+Math.cos(time*.08)*.4-distance*42);
     if(isRay)group.current.rotation.set(-.58+Math.sin(time*.12)*.035,(featured?-.55:-.42)+Math.cos(time*.095)*(featured?.04:.1)+distance*.38,(featured?-.20:.12)+Math.sin(time*.15)*(featured?.025:.04)+distance*.12);
-    else if(name==='turtle')group.current.rotation.set(-.08,.9+Math.cos(time*.07)*.12,.05+Math.sin(time*.17)*.025);
     else if(name==='jelly')group.current.rotation.set(.08,Math.sin(time*.06)*.2,.08);
     else group.current.rotation.set(.02,-.8+Math.sin(time*.07)*.18,.03+Math.sin(time*.12)*.02);
     group.current.visible=true;
@@ -103,7 +102,6 @@ function WaterWorld({mode,playing,pointer,mobile,onReady,layer,reduced,onArrival
     <Suspense fallback={null}>
       <SwimmingAnimal name="manta" size={5.4} origin={[3.5,1.8,-2]} playing={playing} onReady={onReady} featured instant={reduced} onArrivalStage={onArrivalStage}/>
       <FishSchool count={mobile?36:88} playing={playing} instant={reduced}/>
-      <SwimmingAnimal name="turtle" size={1.6} origin={[-3.6,-1.1,-3]} phase={18} playing={playing} instant={reduced}/>
       {!mobile&&<><SwimmingAnimal name="manta" size={2} origin={[-4,2.1,-8]} phase={42} playing={playing} instant={reduced}/><SwimmingAnimal name="kingfish" size={1.35} origin={[1,-1.1,-4]} phase={8} playing={playing} instant={reduced}/><SwimmingAnimal name="kingfish" size={1.1} origin={[6,-1.7,-6]} phase={24} playing={playing} instant={reduced}/></>}
       {mode==='virtual'&&<><SwimmingAnimal name="shark" size={3.4} origin={[-4,-.2,-5]} phase={10} playing={playing} instant={reduced}/>{!mobile&&<SwimmingAnimal name="tuna" size={2.3} origin={[4,-2,-8]} phase={30} playing={playing} instant={reduced}/>}<SwimmingAnimal name="jelly" size={1.1} origin={[2,2.7,-5]} phase={6} playing={playing} instant={reduced}/></>}
     </Suspense>
