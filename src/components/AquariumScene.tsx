@@ -120,4 +120,3 @@ export default function AquariumScene({mode='aquarium'}:{mode?:'aquarium'|'virtu
     {mounted&&!failed&&<SceneBoundary onError={onError}><Canvas dpr={mobile?1:[1,1.35]} camera={{position:[0,0,15],fov:40,near:.1,far:70}} gl={{alpha:true,antialias:true,powerPreference:'default'}} frameloop={playing?'always':'demand'} fallback={null}><WaterWorld mode={mode} playing={playing} pointer={pointer} mobile={mobile} onReady={onReady} layer={layer} reduced={reduced} onArrivalStage={setArrivalStage}/></Canvas></SceneBoundary>}
   </div>;
 }
-
