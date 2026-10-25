@@ -11,3 +11,10 @@
 button,[role="button"]{user-select:none;-webkit-user-select:none;touch-action:manipulation}.nav-dialog{overscroll-behavior:contain;padding-bottom:calc(40px + env(safe-area-inset-bottom))}.site-header{padding-top:calc(28px + env(safe-area-inset-top))}
 
 @media(max-width:600px){.site-header{padding-top:calc(24px + env(safe-area-inset-top))}}
+
+/* Comfortable touch targets and intrinsic sizing at narrow widths. */
+.site-footer nav a,.breadcrumb a{display:inline-flex;align-items:center;min-height:44px}
+.species-layout>*{min-width:0}.model-stage{width:100%;min-width:0}
+@media(max-width:600px){.model-stage{min-height:0}.page-intro h1{font-size:clamp(32px,10.7vw,42px)}}
+@media(hover:hover) and (pointer:fine){button:hover{opacity:.82}.iso-room:hover{opacity:.86}}
+.iso-room{transition:opacity 180ms ease}.iso-room:active{opacity:.65}
