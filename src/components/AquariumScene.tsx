@@ -1,6 +1,6 @@
 import {Suspense,useCallback,useEffect,useMemo,useRef,useState} from 'react';
 import {Canvas,useFrame,useLoader,useThree} from '@react-three/fiber';
-import {BackSide,Box3,Color,DoubleSide,Group,InstancedMesh,Mesh,MeshStandardMaterial,Object3D,ShaderMaterial,Vector2,Vector3,type WebGLProgramParametersWithUniforms} from 'three';
+import {BackSide,Box3,Color,DoubleSide,Group,InstancedMesh,Mesh,MeshStandardMaterial,Object3D,PerspectiveCamera,ShaderMaterial,Vector2,Vector3,type WebGLProgramParametersWithUniforms} from 'three';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MarineModel from './MarineModel';
 import SceneBoundary from './SceneBoundary';
@@ -32,7 +32,7 @@ function SwimmingAnimal({name,size,origin,phase=0,playing,onReady,featured=false
     const x=isRay?origin[0]+Math.sin(time*.095)*.85:origin[0]+Math.sin(time*.07+phase)*1.4;
     const distance=1-travel.current;
     const framedX=mobile&&featured?(x-origin[0])*.25:mobile?x*.32:x;
-    group.current.position.set(framedX+distance*(featured?3:Math.sin(phase)*5),origin[1]+(mobile&&featured?.9:0)+Math.sin(time*.14+phase)*.17+distance*1.3,origin[2]+Math.cos(time*.08)*.4-distance*42);
+    group.current.position.set(framedX+distance*(featured?3:Math.sin(phase)*5),origin[1]+(mobile&&featured?-3:0)+Math.sin(time*.14+phase)*.17+distance*1.3,origin[2]+Math.cos(time*.08)*.4-distance*42);
     if(isRay)group.current.rotation.set(-.58+Math.sin(time*.12)*.035,(featured?-.55:-.42)+Math.cos(time*.095)*(featured?.04:.1)+distance*.38,(featured?-.20:.12)+Math.sin(time*.15)*(featured?.025:.04)+distance*.12);
     else if(name==='jelly')group.current.rotation.set(.08,Math.sin(time*.06)*.2,.08);
     else group.current.rotation.set(.02,-.8+Math.sin(time*.07)*.18,.03+Math.sin(time*.12)*.02);
@@ -42,7 +42,7 @@ function SwimmingAnimal({name,size,origin,phase=0,playing,onReady,featured=false
   return <group ref={group} position={origin} visible={false}><MarineModel name={name} size={size} animated={playing} submerged onReady={onReady} speed={name==='manta'?.65:.55}/></group>;
 }
 
-function FishSchool({count,playing,instant}:{count:number;playing:boolean;instant:boolean}){
+export function FishSchool({count,playing,instant}:{count:number;playing:boolean;instant:boolean}){
   const gltf=useLoader(GLTFLoader,modelUrl('sardine'));
   const mesh=useRef<InstancedMesh>(null);const time=useRef(0);const shader=useRef<WebGLProgramParametersWithUniforms|null>(null);
   const {geometry,material}=useMemo(()=>{
@@ -85,8 +85,16 @@ function WaterOptics({pointer,playing}:{pointer:Pointer;playing:boolean}){
   return <mesh position={[0,0,5]}><planeGeometry args={[viewport.width*.68,viewport.height*.68]}/><primitive object={material} attach="material"/></mesh>;
 }
 
+// A tall phone screen sees a narrow slice of the window: widen the view and look a little down,
+// so the manta stays in the upper half and the rocks rise in the middle instead of under the headline.
+function CameraRig({mobile}:{mobile:boolean}){
+  const camera=useThree(state=>state.camera) as PerspectiveCamera;
+  useEffect(()=>{camera.fov=mobile?58:40;camera.position.set(0,mobile?-2.5:0,15);camera.rotation.set(mobile?-.25:0,0,0);camera.updateProjectionMatrix();},[camera,mobile]);
+  return null;
+}
+
 // Open water behind everything, in the same colour the fog fades geometry into.
-function WaterBackdrop({layer}:{layer:number}){
+export function WaterBackdrop({layer}:{layer:number}){
   const material=useMemo(()=>new ShaderMaterial({side:BackSide,depthWrite:false,fog:false,uniforms:{uDark:{value:0}},vertexShader:'varying vec3 vWorld;void main(){vec4 w=modelMatrix*vec4(position,1.);vWorld=w.xyz;gl_Position=projectionMatrix*viewMatrix*w;}',fragmentShader:`varying vec3 vWorld;uniform float uDark;${waterColor}\nvoid main(){gl_FragColor=vec4(pelagosWater(normalize(vWorld-cameraPosition),uDark),1.);\n#include <colorspace_fragment>\n}`}),[]);
   useEffect(()=>()=>material.dispose(),[material]);
   material.uniforms.uDark.value=layer;
@@ -95,6 +103,7 @@ function WaterBackdrop({layer}:{layer:number}){
 
 function WaterWorld({mode,playing,pointer,mobile,onReady,layer,reduced,onArrivalStage}:{mode:'aquarium'|'virtual';playing:boolean;pointer:Pointer;mobile:boolean;onReady:()=>void;layer:number;reduced:boolean;onArrivalStage:(stage:string)=>void}){
   return <>
+    <CameraRig mobile={mobile}/>
     <WaterHabitat playing={playing} mobile={mobile} layer={layer}/>
     <WaterBackdrop layer={layer}/><fogExp2 attach="fog" args={[new Color(layer,0,0),.028+layer*.01]}/>
     <ambientLight intensity={.18}/><hemisphereLight args={['#5a9ad6','#0a2550',1.05]}/>
