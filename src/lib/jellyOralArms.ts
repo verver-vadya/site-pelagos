@@ -22,7 +22,8 @@ export function createJellyOralArms(){
       for(let side=0;side<3;side++){
         const index=(row*3+side)*4;
         colors[index]=color.r;colors[index+1]=color.g;colors[index+2]=color.b;
-        const attachment=.18+.82*Math.min(1,t/.22);
+        const rootFade=Math.min(1,t/.22);
+        const attachment=rootFade*rootFade*(3-2*rootFade);
         colors[index+3]=(side===1?.8:.4)*attachment*(1-.25*t);
       }
       if(row===rows)continue;

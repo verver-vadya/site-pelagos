@@ -23,7 +23,7 @@ export default function CreatureViewer({model,label,poster=false}:{model:string;
   useEffect(()=>setHydrated(true),[]);
   useEffect(()=>{const query=window.matchMedia('(prefers-reduced-motion: reduce)');const sync=()=>setReducedMotion(query.matches);sync();query.addEventListener('change',sync);return()=>query.removeEventListener('change',sync);},[]);
   if(!isModelName(model))return null;
-  const animated=model==='jelly'&&!reducedMotion;
+  const animated=['jelly','manta','shark','sardine','kingfish','tuna'].includes(model)&&!reducedMotion;
   return <div className={`creature-viewer ${ready?'ready':''} ${poster?'poster-view':''}`}>
     {!started?<button className="viewer-start action" disabled={!hydrated} onClick={()=>setStarted(true)} aria-label={`Рассмотреть в 3D: ${label}`}>Рассмотреть в 3D <span aria-hidden="true">↗</span></button>:<>
       <div className="viewer-canvas" role="img" aria-label={`Трёхмерная модель: ${label}`} onPointerDown={event=>{if(event.button!==0)return;drag.current={id:event.pointerId,x:event.clientX};event.currentTarget.setPointerCapture(event.pointerId);}} onPointerMove={event=>{if(drag.current?.id!==event.pointerId)return;rotation.current+=(event.clientX-drag.current.x)*.012;drag.current.x=event.clientX;invalidate.current();}} onPointerUp={()=>{drag.current=null;}} onPointerCancel={()=>{drag.current=null;}}>
