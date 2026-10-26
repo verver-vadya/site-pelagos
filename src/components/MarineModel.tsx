@@ -43,7 +43,7 @@ export default function MarineModel({name,size=4,animated=true,speed=.7,submerge
       oralArms=createJellyOralArms();
       // Keep the oral arms below the bell's underside; their roots meet at its central mouth.
       oralArms.group.position.set(0,-.04,0);
-      oralArms.group.rotation.z=-.42;
+      oralArms.group.rotation.z=-.72;
       oralArms.group.scale.setScalar(.72);
       opacity.set(oralArms.material,oralArms.material.opacity);
       materials.push(oralArms.material);
@@ -68,7 +68,7 @@ export default function MarineModel({name,size=4,animated=true,speed=.7,submerge
     if(animated){const step=Math.min(delta,.05)*speed;phase.current+=step;if(name!=='jelly')model.mixer.update(step);}
     if(animated){
       const pulse=model.bellPulse?.update(phase.current)??0;
-      if(model.oralArms){model.oralArms.update(phase.current);model.oralArms.group.rotation.z=-.42+Math.sin(phase.current*.42)*.035;model.oralArms.group.rotation.x=Math.cos(phase.current*.35)*.025;model.oralArms.group.scale.set(.72*(1-.04*pulse),.72*(1+.04*pulse),.72*(1-.04*pulse));}
+      if(model.oralArms){model.oralArms.update(phase.current);model.oralArms.group.rotation.z=-.72+Math.sin(phase.current*.42)*.035;model.oralArms.group.rotation.x=Math.cos(phase.current*.35)*.025;model.oralArms.group.scale.set(.72*(1-.04*pulse),.72*(1+.04*pulse),.72*(1-.04*pulse));}
     }
   });
   return <primitive object={model.root} dispose={null}/>;
