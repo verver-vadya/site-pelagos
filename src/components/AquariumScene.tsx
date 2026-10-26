@@ -58,7 +58,7 @@ export function FishSchool({count,playing,instant}:{count:number;playing:boolean
     const fish=source as Mesh;const geometry=fish.geometry.clone().applyMatrix4(fish.matrixWorld);const box=new Box3().setFromBufferAttribute(geometry.attributes.position as never);const center=box.getCenter(new Vector3());const bounds=box.getSize(new Vector3());geometry.translate(-center.x,-center.y,-center.z);geometry.scale(.43/Math.max(bounds.x,bounds.y,bounds.z),.43/Math.max(bounds.x,bounds.y,bounds.z),.43/Math.max(bounds.x,bounds.y,bounds.z));
     const original=(Array.isArray(fish.material)?fish.material[0]:fish.material) as MeshStandardMaterial;
     const material=new MeshStandardMaterial({map:original.map||null,color:new Color('#c1d6df'),roughness:.66,metalness:0,side:DoubleSide});
-    material.onBeforeCompile=compiled=>{compiled.uniforms.uSwim={value:0};compiled.vertexShader='uniform float uSwim;\n'+compiled.vertexShader;compiled.vertexShader=compiled.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n float tailWeight=pow(clamp((-position.z+0.02)/0.3,0.0,1.0),2.0); transformed.x+=sin(uSwim*6.0+float(gl_InstanceID)*1.31)*0.022*tailWeight;');shader.current=compiled;};
+    material.onBeforeCompile=compiled=>{compiled.uniforms.uSwim={value:0};compiled.vertexShader='uniform float uSwim;\n'+compiled.vertexShader;compiled.vertexShader=compiled.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n float tail = clamp((0.215-position.z)/0.43,0.0,1.0); float bend=smoothstep(0.22,1.0,tail); transformed.x+=sin(uSwim*5.2-tail*2.1+float(gl_InstanceID)*1.31)*0.017*bend;');shader.current=compiled;};
     return {geometry,material};
   },[gltf]);
   const dummy=useMemo(()=>new Object3D(),[]);const target=useMemo(()=>new Vector3(),[]);
@@ -119,7 +119,7 @@ function WaterWorld({mode,playing,pointer,mobile,onReady,layer,reduced,onArrival
       <SwimmingAnimal name="manta" size={5.4} origin={[3.5,1.8,-2]} playing={playing} onReady={onReady} featured instant={reduced} onArrivalStage={onArrivalStage}/>
       <FishSchool count={mobile?36:88} playing={playing} instant={reduced}/>
       {!mobile&&<><SwimmingAnimal name="manta" size={2} origin={[-4,2.1,-8]} phase={42} playing={playing} instant={reduced}/><SwimmingAnimal name="kingfish" size={1.35} origin={[1,-1.1,-4]} phase={8} playing={playing} instant={reduced}/><SwimmingAnimal name="kingfish" size={1.1} origin={[6,-1.7,-6]} phase={24} playing={playing} instant={reduced}/></>}
-      {mode==='virtual'&&<><SwimmingAnimal name="shark" size={3.4} origin={[-4,-.2,-5]} phase={10} playing={playing} instant={reduced}/>{!mobile&&<SwimmingAnimal name="tuna" size={2.3} origin={[4,-2,-8]} phase={30} playing={playing} instant={reduced}/>}<SwimmingAnimal name="jelly" size={1.1} origin={[2,2.7,-5]} phase={6} playing={playing} instant={reduced}/></>}
+      {mode==='virtual'&&<><SwimmingAnimal name="shark" size={3.4} origin={[-4,-.2,-5]} phase={10} playing={playing} instant={reduced}/>{!mobile&&<SwimmingAnimal name="tuna" size={2.3} origin={[4,-2,-8]} phase={30} playing={playing} instant={reduced}/>}<SwimmingAnimal name="jelly" size={1.4} origin={[2,2.7,-5]} phase={6} playing={playing} instant={reduced}/></>}
     </Suspense>
     <WaterOptics pointer={pointer} playing={playing}/>
     <UnderwaterLight playing={playing} mobile={mobile} layer={layer}/>
