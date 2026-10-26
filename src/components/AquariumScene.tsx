@@ -119,7 +119,7 @@ function WaterWorld({mode,playing,pointer,mobile,onReady,layer,reduced,onArrival
       <SwimmingAnimal name="manta" size={5.4} origin={[3.5,1.8,-2]} playing={playing} onReady={onReady} featured instant={reduced} onArrivalStage={onArrivalStage}/>
       <FishSchool count={mobile?36:88} playing={playing} instant={reduced}/>
       {!mobile&&<><SwimmingAnimal name="manta" size={2} origin={[-4,2.1,-8]} phase={42} playing={playing} instant={reduced}/><SwimmingAnimal name="kingfish" size={1.35} origin={[1,-1.1,-4]} phase={8} playing={playing} instant={reduced}/><SwimmingAnimal name="kingfish" size={1.1} origin={[6,-1.7,-6]} phase={24} playing={playing} instant={reduced}/></>}
-      {mode==='virtual'&&<><SwimmingAnimal name="shark" size={3.4} origin={[-4,-.2,-5]} phase={10} playing={playing} instant={reduced}/>{!mobile&&<SwimmingAnimal name="tuna" size={2.3} origin={[4,-2,-8]} phase={30} playing={playing} instant={reduced}/>}<SwimmingAnimal name="jelly" size={1.1} origin={[2,2.7,-5]} phase={6} playing={playing} instant={reduced}/></>}
+      {mode==='virtual'&&<><SwimmingAnimal name="shark" size={3.4} origin={[-4,-.2,-5]} phase={10} playing={playing} instant={reduced}/>{!mobile&&<SwimmingAnimal name="tuna" size={2.3} origin={[4,-2,-8]} phase={30} playing={playing} instant={reduced}/>}<SwimmingAnimal name="jelly" size={1.4} origin={[2,2.7,-5]} phase={6} playing={playing} instant={reduced}/></>}
     </Suspense>
     <WaterOptics pointer={pointer} playing={playing}/>
     <UnderwaterLight playing={playing} mobile={mobile} layer={layer}/>
