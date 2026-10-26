@@ -32,8 +32,15 @@ function SwimmingAnimal({name,size,origin,phase=0,playing,onReady,featured=false
     const x=isRay?origin[0]+Math.sin(time*.095)*.85:origin[0]+Math.sin(time*.07+phase)*1.4;
     const distance=1-travel.current;
     const framedX=mobile&&featured?(x-origin[0])*.25:mobile?x*.32:x;
-    group.current.position.set(framedX+distance*(featured?3:Math.sin(phase)*5),origin[1]+(mobile&&featured?-3:0)+Math.sin(time*.14+phase)*.17+distance*1.3,origin[2]+Math.cos(time*.08)*.4-distance*42);
-    if(isRay)group.current.rotation.set(-.58+Math.sin(time*.12)*.035,(featured?-.55:-.42)+Math.cos(time*.095)*(featured?.04:.1)+distance*.38,(featured?-.20:.12)+Math.sin(time*.15)*(featured?.025:.04)+distance*.12);
+    const approachX=featured?3:Math.sin(phase)*5;
+    group.current.position.set(framedX+distance*approachX,origin[1]+(mobile&&featured?-3:0)+Math.sin(time*.14+phase)*.17-distance*1.3,origin[2]+Math.cos(time*.08)*.4-distance*42);
+    if(isRay){
+      // The model faces +Z. Keep its head aligned with the approach path; bank only as it slows near the glass.
+      const bankProgress=Math.max(0,Math.min(1,(progress-.72)/.28));
+      const bank=bankProgress*bankProgress*(3-2*bankProgress);
+      const heading=Math.atan2(-approachX,42);
+      group.current.rotation.set(-.04-.54*bank+Math.sin(time*.12)*.025,heading+((featured?-.55:-.42)-heading)*bank+Math.cos(time*.095)*.025,(featured?-.08:.04)+((featured?-.20:.12)-(featured?-.08:.04))*bank+Math.sin(time*.15)*.02);
+    }
     else if(name==='jelly')group.current.rotation.set(.08,Math.sin(time*.06)*.2,.08);
     else group.current.rotation.set(.02,-.8+Math.sin(time*.07)*.18,.03+Math.sin(time*.12)*.02);
     group.current.visible=true;
