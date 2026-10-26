@@ -22,7 +22,8 @@ export function createJellyOralArms(){
       for(let side=0;side<3;side++){
         const index=(row*3+side)*4;
         colors[index]=color.r;colors[index+1]=color.g;colors[index+2]=color.b;
-        colors[index+3]=(side===1?.8:.4)*(1-.25*t);
+        const attachment=.18+.82*Math.min(1,t/.22);
+        colors[index+3]=(side===1?.8:.4)*attachment*(1-.25*t);
       }
       if(row===rows)continue;
       for(let side=0;side<2;side++){
@@ -43,24 +44,24 @@ export function createJellyOralArms(){
       const angle=arm*Math.PI/2+.3;
       const radialX=Math.cos(angle),radialZ=Math.sin(angle);
       const tangentX=-radialZ,tangentZ=radialX;
-      const length=1.55+.12*Math.sin(arm*2.3);
+      const length=1.95+.12*Math.sin(arm*2.3);
       for(let row=0;row<=rows;row++){
         const t=row/rows;
-        const spread=.16+.29*t;
+        const spread=.025+.425*t;
         const drift=.23*t*t*Math.sin(t*5-time*.72+arm*1.8);
         const x=radialX*spread+tangentX*drift;
         const z=radialZ*spread+tangentZ*drift;
         const twist=layer*Math.PI/2+.26*Math.sin(t*7-time*.38+arm);
         const widthX=tangentX*Math.cos(twist)+radialX*Math.sin(twist);
         const widthZ=tangentZ*Math.cos(twist)+radialZ*Math.sin(twist);
-        const taper=.12+.88*Math.pow(Math.sin(Math.PI*t),.8);
+        const taper=.12+.88*Math.pow(Math.sin(Math.PI*t),.8)*Math.min(1,t/.18);
         const width=(layer===0?.092:.052)*taper*(1+.2*Math.sin(t*22+arm*2+layer));
         for(let side=0;side<3;side++){
           const edge=side-1;const index=(row*3+side)*3;
           const ruffle=.029*t*Math.sin(t*29+arm*1.4+edge*1.8-time*.46);
           const fold=side===1?.018*Math.sin(t*18+arm*1.7+layer):0;
           positions[index]=x+widthX*width*edge+radialX*fold;
-          positions[index+1]=-.16-length*t+ruffle;
+          positions[index+1]=-length*t+ruffle;
           positions[index+2]=z+widthZ*width*edge+radialZ*fold;
         }
       }

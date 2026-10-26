@@ -5,6 +5,7 @@ import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {clone} from 'three/examples/jsm/utils/SkeletonUtils.js';
 import {modelUrl,type ModelName} from '../lib/models';
 import {createJellyOralArms} from '../lib/jellyOralArms';
+import {createJellyBellPulse} from '../lib/jellyBellPulse';
 
 type Props={name:ModelName;size?:number;animated?:boolean;speed?:number;submerged?:boolean;onReady?:()=>void;reveal?:{current:number}};
 export default function MarineModel({name,size=4,animated=true,speed=.7,submerged=false,onReady,reveal}:Props){
@@ -13,6 +14,8 @@ export default function MarineModel({name,size=4,animated=true,speed=.7,submerge
   const model=useMemo(()=>{
     const source=clone(gltf.scene);
     const materials:Material[]=[];const addedGeometry:BufferGeometry[]=[];
+    const bellPulse=name==='jelly'?createJellyBellPulse(source):undefined;
+    if(bellPulse)addedGeometry.push(...bellPulse.geometries);
     const opacity=new Map<Material,number>();
     const helpers:Mesh[]=[];
     source.traverse(object=>{
@@ -23,7 +26,7 @@ export default function MarineModel({name,size=4,animated=true,speed=.7,submerge
       if((name==='jelly'&&originals.every(material=>material.name==='material_0'||/Moon-Jelly_OralArm/.test(material.name)))||(name==='octopus'&&originals.every(material=>material.name==='Material.001'))){helpers.push(object);return;}
       const converted=originals.map(original=>{
         const old=original as MeshStandardMaterial;
-        const jellyOpacity=/Tentacle|OralArm/.test(old.name)?.82:.46;
+        const jellyOpacity=/Tentacle|OralArm/.test(old.name)?.82:/Bell1/.test(old.name)?.63:/Bell2/.test(old.name)?.4:.46;
         const material=new MeshStandardMaterial({map:old.map||null,normalMap:old.normalMap||null,color:old.color?.clone()||new Color('white'),roughness:name==='jelly'?.28:.82,metalness:0,side:DoubleSide,transparent:name==='jelly'||old.transparent,opacity:name==='jelly'?jellyOpacity:old.opacity??1,depthWrite:name!=='jelly'});
         material.color.lerp(new Color('#6797b2'),submerged?.09:name==='jelly'?.08:.025);
         opacity.set(material,material.opacity);
@@ -38,8 +41,9 @@ export default function MarineModel({name,size=4,animated=true,speed=.7,submerge
     let oralArms:ReturnType<typeof createJellyOralArms>|undefined;
     if(name==='jelly'){
       oralArms=createJellyOralArms();
-      oralArms.group.position.set(.25,-.05,0);
-      oralArms.group.rotation.z=-.68;
+      // Keep the oral arms below the bell's underside; their roots meet at its central mouth.
+      oralArms.group.position.set(0,-.04,0);
+      oralArms.group.rotation.z=-.42;
       oralArms.group.scale.setScalar(.72);
       opacity.set(oralArms.material,oralArms.material.opacity);
       materials.push(oralArms.material);
@@ -53,14 +57,19 @@ export default function MarineModel({name,size=4,animated=true,speed=.7,submerge
     const root=new Group();root.scale.setScalar(size/Math.max(dimensions.x,dimensions.y,dimensions.z));root.add(centered);
     const mixer=new AnimationMixer(source);
     const animation=gltf.animations.find(clip=>/swim|loop/i.test(clip.name)&&!/bite|fast/i.test(clip.name))||gltf.animations[0];
-    if(animation)mixer.clipAction(animation).play();
-    return {root,mixer,source,materials,opacity,addedGeometry,oralArms};
+    // The imported jelly clip moves its skin independently of the replacement oral arms.
+    // Our bell pulse and ribbon motion share one clock and keep the mouth joined.
+    if(animation&&name!=='jelly')mixer.clipAction(animation).play();
+    return {root,mixer,source,materials,opacity,addedGeometry,oralArms,bellPulse};
   },[gltf,name,size,submerged,reveal]);
   useEffect(()=>{onReady?.();return()=>{model.mixer.stopAllAction();model.mixer.uncacheRoot(model.source);model.materials.forEach(material=>material.dispose());model.addedGeometry.forEach(geometry=>geometry.dispose());};},[model,onReady]);
   useFrame((_,delta)=>{
     if(reveal)model.materials.forEach(original=>{const material=original as MeshStandardMaterial;material.opacity=(model.opacity.get(material)??1)*reveal.current;});
-    if(animated){const step=Math.min(delta,.05)*speed;phase.current+=step;model.mixer.update(step);}
-    if(model.oralArms){model.oralArms.update(phase.current);model.oralArms.group.rotation.z=-.68+Math.sin(phase.current*.42)*.035;model.oralArms.group.rotation.x=Math.cos(phase.current*.35)*.025;}
+    if(animated){const step=Math.min(delta,.05)*speed;phase.current+=step;if(name!=='jelly')model.mixer.update(step);}
+    if(animated){
+      const pulse=model.bellPulse?.update(phase.current)??0;
+      if(model.oralArms){model.oralArms.update(phase.current);model.oralArms.group.rotation.z=-.42+Math.sin(phase.current*.42)*.035;model.oralArms.group.rotation.x=Math.cos(phase.current*.35)*.025;model.oralArms.group.scale.set(.72*(1-.04*pulse),.72*(1+.04*pulse),.72*(1-.04*pulse));}
+    }
   });
   return <primitive object={model.root} dispose={null}/>;
 }
